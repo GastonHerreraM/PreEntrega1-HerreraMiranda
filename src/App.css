@@ -6,3 +6,21 @@
 .bg-custom {
   background-color: grey;
 }
+
+nav a{
+  color: Black;
+  text-decoration: none;
+}
+
+nav ul li a{
+  color: Black;
+  text-decoration: none;
+}
+
+.card-img-top {
+  width: 20rem;
+}
+
+.card {
+  margin: 5px
+}
