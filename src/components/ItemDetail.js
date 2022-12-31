@@ -20,21 +20,26 @@ const ItemDetail = ({ item }) => {
             item && item.image
             ?
             <>
-            <div>
-                <div>
-                    <img src={item.image} alt="object img" />
-                </div>
-                <div>
-                    <p>{item.title}</p>
-                    <p>Precio: {item.price}</p>
-                    <p>Unidades en stock: {item.stock}</p>
-                    <p><b>Sobre el producto:</b></p>
-                    <p>{item.description}</p>
-                    {
-                        itemCount === 0
-                        ? <ItemCount stock={item.stock} initial={itemCount} onAdd={onAdd} />
-                        : <Link to='/cart' style={{textDecoration: "none"}}><button>CheckOut</button></Link>
-                    }
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-center align-items-center">
+                        <img src={item.image} alt="object img" />
+                    </div>
+                    <div className="col-sm-12 col-md-6 col-lg-6 d-flex flex-column justify-content-center align-items-center">
+                        <p className="fs-1 fw-bold">{item.name}</p>
+                        <p className="fs-4">{item.description}</p>
+                        <div className="d-flex m-1">
+                            <p className="fs-5 m-3 d-flex align-items-end">Precio: ${item.price}</p>
+                            <p className="fs-5 m-3 d-flex align-items-end">Unidades en stock: {item.stock}</p>
+                        </div>
+                        <div className="d-flex">
+                            {
+                                itemCount === 0
+                                ? <ItemCount className="w-auto p-3" stock={item.stock} initial={itemCount} onAdd={onAdd} />
+                                : <Link to='/cart' style={{textDecoration: "none"}}><button className="btn btn-dark m-2 btn_adjust1 d-flex justify-content-center align-items-center fs-5">Checkout</button></Link>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
             </>

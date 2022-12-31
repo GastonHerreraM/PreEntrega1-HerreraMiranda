@@ -14,7 +14,7 @@ const Cart = () => {
         const itemsForDB = contextHook.cartList.map(item => ({
           id: item.idItem,
           title: item.titleItem,
-          price: item.priceItem,
+          price: item.costItem,
           qty: item.qtyItem
         }));
     
@@ -42,7 +42,7 @@ const Cart = () => {
           return newOrderRef;
         }
 
-        function swalorder (result) {
+        function swalticket (result) {
           const swalOrder = withReactContent(Swal)
               swalOrder.fire({
                   title: `Your order has been created. `,
@@ -51,7 +51,7 @@ const Cart = () => {
           }
       
         createOrderInFirestore()
-          .then(result => swalorder(result))
+          .then(result => swalticket(result))
           .catch(err => console.log(err));
       
         contextHook.removeList();
@@ -59,48 +59,60 @@ const Cart = () => {
 
     return (
         <>
-            YOUR CART
-                <Link to='/'>CONTINUE SHOPPING</Link>
+            <p className="text-center fs-3">Tu Carrito</p>
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-sm-12 col-md-9 col-lg-8">
+                      {
+                        contextHook.cartList.length > 0 &&
+                        contextHook.cartList.map(item => 
+                          <>
+                            <div className="container">
+                              <div className="card mb-3">
+                                <div className="row g-0">
+                                  <div className="col-md-4">
+                                    <img src={item.imgItem} className="img-fluid rounded-start" alt="object img" />
+                                  </div>
+                                  <div className="col-md-8">
+                                    <div className="card-body d-flex flex-column">
+                                        <h5 className="card-title fs-2">{item.titleItem}</h5>
+                                        <p className="card-text fs-5">por unidad: $ {item.costItem}</p>
+                                        <p className="card-text fs-5">Cantidad: {item.qtyItem}</p>
+                                        <p className="card-text fs-4">Costo total: $ {contextHook.calcTotalPerItem(item.idItem)}</p>
+                                        <button className="btn btn-dark m-2 btn_adjust1 d-flex justify-content-center align-items-center fs-5" onClick={() => contextHook.deleteItem(item.idItem)}>Eliminar</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        )
+                      }
+                    </div>
+                    <div className="col-sm-12 col-md-3 col-lg-4">
+                      {
+                        contextHook.cartList.length > 0 &&
+                        <>
+                        <Link to='/' style={{textDecoration: "none"}} className="d-flex justify-content-center align-items-center mb-5"><button type="button" className="btn btn-outline-dark m-2 d-flex justify-content-center align-items-center fs-5">CONTINUE SHOPPING</button></Link>
+                            <div className="container">
+                              <div className="row">
+                                ORDER SUMMARY
+                                <p className="mb-5">TOTAL: $ {contextHook.calcSubTotal()}</p>
+                                <button className="btn btn-dark m-2 d-flex justify-content-center align-items-center fs-5" type="button" onClick={createOrder}>FINALIZAR COMPRA</button>
+                              </div>
+                            </div>
+                          </>
+                      }
+                    </div>
+                  </div>
+                </div>
                 {
                   (contextHook.cartList.length > 0)
-                  ? <button onClick={contextHook.removeList}>DELETE ALL PRODUCTS</button>
-                  : <p>Your cart is empty</p>
-                }
-                {
-                  contextHook.cartList.length > 0 &&
-                  contextHook.cartList.map(item => 
-                    <>
-                    <div className="container">
-                      <div className='product-cart row'>
-                        <div className="card">
-                        <img src={item.image} className="card-img-top" alt="object img" />
-                        <div className="card-body">
-                            <h5 className="card-title">{item.titleItem}</h5>
-                            <p className="card-text">por unidad: $ {item.costItem}</p>
-                            <p className="card-text">Cantidad: {item.qtyItem}</p>
-                            <p className="card-text">Costo total: {contextHook.calcTotalPerItem(item.idItem)}</p>
-                            <button type="filled" onClick={() => contextHook.deleteItem(item.idItem)}>DELETE</button>
-                        </div>
-                        </div>
-                      </div>
-                    </div>
-                    </>
-                  )
-                }
-                {
-                  contextHook.cartList.length > 0 &&
-                    <>
-                    <div className="container">
-                      <div className='product-cart row'>
-                        ORDER SUMMARY
-                      <p>TOTAL: {contextHook.calcSubTotal()}</p>
-                      <button onClick={createOrder}>CHECKOUT NOW</button>
-                      </div>
-                    </div>
-                    </>
+                  ? <button className="btn btn-outline-dark m-2 d-flex justify-content-center align-items-center fs-5" onClick={contextHook.removeList}>DELETE ALL PRODUCTS</button>
+                  : <p className="text-center fs-4 d-flex justify-content-center">Tu carrito esta vacio</p>
                 }
       </>
     );
-}
+  }
 
 export default Cart;

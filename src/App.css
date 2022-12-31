@@ -24,3 +24,15 @@ nav ul li a{
 .card {
   margin: 5px
 }
+
+.btn_adjust{
+  height: 60px;
+  width: 60px;
+  border-radius: 5px
+}
+
+.btn_adjust1{
+  height: 60px;
+  width: 120px;
+  border-radius: 5px
+}
